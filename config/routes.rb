@@ -1,6 +1,14 @@
 Rails.application.routes.draw do
   devise_for :traders
-  devise_for :admins
+  devise_for :admins, path: '', path_names: {
+    # sign_in: 'login',
+    # sign_out: 'logout',
+    registration: 'admins'
+  },
+  controllers: {
+    sessions: 'admins/sessions',
+    registrations: 'admins/registrations'
+  }
   get '/current_user', to: 'current_user#index'
   # devise_for :users
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
