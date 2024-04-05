@@ -2,6 +2,7 @@
 
 class Admins::SessionsController < Devise::SessionsController
   include RackSessionFix
+  respond_to :json
   # before_action :configure_sign_in_params, only: [:create]
 
   # GET /resource/sign_in
@@ -38,7 +39,7 @@ class Admins::SessionsController < Devise::SessionsController
     if current_user
       render json: {
         status: 200,
-        message: "logged out successfully"
+        message: "Logged out successfully"
       }, status: :ok
     else
       render json: {
