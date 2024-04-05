@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 
-class Users::SessionsController < Devise::SessionsController
+class Admins::SessionsController < Devise::SessionsController
   include RackSessionFix
-  # before_action :configure_sign_in_params, only: [:create]
   respond_to :json
+  # before_action :configure_sign_in_params, only: [:create]
 
   # GET /resource/sign_in
   # def new
@@ -26,13 +26,12 @@ class Users::SessionsController < Devise::SessionsController
   # def configure_sign_in_params
   #   devise_parameter_sanitizer.permit(:sign_in, keys: [:attribute])
   # end
-
   private
 
   def respond_with(resource, _opts = {})
     render json: {
       status: {code: 200, message: 'Logged in sucessfully.'},
-      data: UserSerializer.new(resource).serializable_hash[:data][:attributes]
+      data: AdminSerializer.new(resource).serializable_hash[:data][:attributes]
     }, status: :ok
   end
 
