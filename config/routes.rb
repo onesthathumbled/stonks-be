@@ -16,6 +16,7 @@ Rails.application.routes.draw do
   post '/admin/create_new_trader', to: 'admins/admins#create_new_trader'
   patch '/admin/edit_trader/:id', to: 'admins/admins#edit_trader'
   get '/admin/show_trader', to: 'admins/admins#show_trader'
+  get '/admin/show_admins', to: 'admins/admins#show_admins'
   
 
  
