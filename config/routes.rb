@@ -12,13 +12,24 @@ Rails.application.routes.draw do
     registrations: 'admins/registrations'
   }
 
-  # Admin Controllers
-  post '/admin/create_new_trader', to: 'admins/admins#create_new_trader'
-  patch '/admin/edit_trader/:id', to: 'admins/admins#edit_trader'
-  get '/admin/show_trader', to: 'admins/admins#show_trader'
-  get '/admin/show_admins', to: 'admins/admins#show_admins'
+  #                   Admin Routes with Controllers
   
+  # Create a new trader
+  post '/admin/create_new_trader', to: 'users/users#create_new_trader'
+  # Edit a specific trader
+  patch '/admin/edit_trader/:id', to: 'users/users#edit_trader'
+  # View a specific trader
+  get '/admin/show_trader/:id', to: 'users/users#show_trader'
+  # View all the traders that registered in the app
+  get '/admin/show_traders', to: 'users/users#show_traders'
+  # View all the pending traders
+  get 'admin/show_pending_traders', to: 'users/users#show_pending_traders'
+  # Approve a trader sign up
+  patch '/admin/approve_trader/:id', to: 'users/users#approve_trader'
 
+  get '/admin/show_admin/:id', to: 'users/users#show_admin'
+  get '/admin/show_admins', to: 'users/users#show_admins'
+  
  
   # < -------------------------------------------------------------------------------------------- >
   # For Testing Purposes
