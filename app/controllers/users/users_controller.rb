@@ -23,25 +23,26 @@ class Users::UsersController < ApplicationController
         end
     end
 
-    def show_admin
-        @admin = User.find(params[:id])
-        render json: @admin
+    def update_trader
+        @trader = User.find(params[:id])
+        
+        if @trader.update(email_param) 
+            render json: {
+                status: {code: 200, message: "Trader updated successfully."},
+                data: UserSerializer.new(@trader).serializable_hash[:data][:attributes]
+            }, status: :ok
+        else
+            render json: {
+                status: {code: 422, message: "Failed to updated trader.", errors: @trader.errors.full_messages}
+            }, status: :unprocessable_entity
+        end
     end
     
-    def show_admins
-        @admins = User.where(roles: 1)
-        render json: @admins
-    end
-
-    def edit_trader
-
-    end 
-
     def show_trader
         @user = User.find(params[:id])
         render json: @user
     end
-    
+
     def show_traders
         @traders = User.where(roles: 0, status: true)
         render json: @traders
@@ -68,7 +69,18 @@ class Users::UsersController < ApplicationController
     end
 
     def show_transactions
-        
+        @transactions = Transaction.all
+        render json: @transactions
+    end
+
+    def show_admin
+        @admin = User.find(params[:id])
+        render json: @admin
+    end
+    
+    def show_admins
+        @admins = User.where(roles: 1)
+        render json: @admins
     end
 
     private
@@ -79,6 +91,10 @@ class Users::UsersController < ApplicationController
 
     def status_param
         params.require(:user).permit(:status)
+    end
+
+    def email_param
+        params.require(:user).permit(:email)
     end
 
     def user_params
