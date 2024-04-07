@@ -32,7 +32,25 @@ Rails.application.routes.draw do
   get '/admin/show_admin/:id', to: 'users/users#show_admin'
   # Show all admins
   get '/admin/show_admins', to: 'users/users#show_admins'
+
+  #                   Traders Routes with Controllers
   
+  # Create an account
+  post '/trader/register', to: 'users/users#register'
+  # Login endpoint
+  post '/trader/login', to: 'users/users#login'
+  # Receive an email to confirm pending account
+  # ------> will use Action Mailer here
+  # Receive an email once an account has been approved
+  # ------> will use Action Mailer here
+  # Buy stocks
+  post '/trader/buy', to: 'users/users#buy'
+  # Sell stocks
+  post '/trader/sell', to: 'users/users#sell'
+  # Get portfolio
+  get 'trader/portfolio', to: 'users/users#portfolio'
+  # Get transactions of a specific trader
+  get 'trader/transactions', to: 'users/users#transactions'
  
   # < -------------------------------------------------------------------------------------------- >
   # For Testing Purposes

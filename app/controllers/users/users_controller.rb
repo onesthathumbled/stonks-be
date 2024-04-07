@@ -2,6 +2,8 @@ class Users::UsersController < ApplicationController
     include RackSessionFix
     respond_to :json
 
+    # Admin Controllers
+
     def create_new_trader
         @user = User.new(user_params)
         
@@ -82,6 +84,10 @@ class Users::UsersController < ApplicationController
         @admins = User.where(roles: 1)
         render json: @admins
     end
+
+    # Trader Controllers
+
+    # Ian will do this.
 
     private
 
