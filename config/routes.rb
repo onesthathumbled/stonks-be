@@ -66,5 +66,10 @@ Rails.application.routes.draw do
     registrations: 'users/registrations'
   }
 
+  # Test
+
+  # Show quote
+  get '/test/show_quote', to: 'users/users#show_quote'
+
   get "up" => "rails/health#show", as: :rails_health_check
 end

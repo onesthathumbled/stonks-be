@@ -89,6 +89,12 @@ class Users::UsersController < ApplicationController
 
     # Ian will do this.
 
+    # Test
+    def show_quote
+        @symbols = ::IexApi.price('AAPL')
+        render json: @symbols
+    end
+
     private
 
     def set_user
