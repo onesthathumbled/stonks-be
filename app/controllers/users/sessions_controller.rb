@@ -30,10 +30,16 @@ class Users::SessionsController < Devise::SessionsController
   private
 
   def respond_with(resource, _opts = {})
-    render json: {
-      status: {code: 200, message: 'Logged in sucessfully.'},
-      data: UserSerializer.new(resource).serializable_hash[:data][:attributes]
-    }, status: :ok
+    if user_signed_in?
+      render json: {
+        status: {code: 200, message: 'Logged in sucessfully.'},
+        data: UserSerializer.new(resource).serializable_hash[:data][:attributes]
+      }, status: :ok
+    else
+      render json: {
+        status: {code: 401, message: 'Wrong Credentials.'},
+      }, status: :unauthorized
+    end
   end
 
   def respond_to_on_destroy
