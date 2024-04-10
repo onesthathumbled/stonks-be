@@ -7,4 +7,14 @@ class Users::UsersController < ApplicationController
         render json: @stocks
     end
 
+    def transactions
+        @transactions = current_user.transactions
+        render json: @transactions
+    end
+
+    private
+
+    # def stock_params
+    #     params.require(:stocks).permit(:symbol, :company_name, :quantity)
+    # end
 end
