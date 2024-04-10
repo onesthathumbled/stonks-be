@@ -25,9 +25,9 @@ Rails.application.routes.draw do
   #                   Traders Routes with Controllers
   
   # Create an account
-  post '/trader/register', to: 'users/users#register'
+  post '/trader/register', to: 'users/users#register' #can be deleted
   # Login endpoint
-  post '/trader/login', to: 'users/users#login'
+  post '/trader/login', to: 'users/users#login' #can be deleted
   # Receive an email to confirm pending account
   # ------> will use Action Mailer here
   # Receive an email once an account has been approved
@@ -37,9 +37,9 @@ Rails.application.routes.draw do
   # Sell stocks
   post '/trader/sell', to: 'users/users#sell'
   # Get portfolio
-  get 'trader/portfolio', to: 'users/users#portfolio'
+  get 'trader/portfolio', to: 'users/users#portfolio' #//
   # Get transactions of a specific trader
-  get 'trader/transactions', to: 'users/users#transactions'
+  get 'trader/transactions', to: 'users/users#transactions' #//
  
   # < -------------------------------------------------------------------------------------------- >
   # For Testing Purposes
