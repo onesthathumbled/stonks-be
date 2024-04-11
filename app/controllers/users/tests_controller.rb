@@ -4,8 +4,11 @@ class Users::TestsController < ApplicationController
 
     # Tests
     def show
-        @symbol = ::IexApi.ohlc(set_params[:symbol])
-        render json: @symbol
+        # @symbol = ::IexApi.price(set_params[:symbol])
+        # render json: @symbol
+
+        @symbols = ::IexApi.symbols
+        render json: @symbols
     end
 
     private
