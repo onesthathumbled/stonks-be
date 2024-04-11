@@ -3,7 +3,8 @@ class Users::UsersController < ApplicationController
     respond_to :json
 
     def buy
-        transaction_params_with_defaults = transaction_params.merge(transaction_type: 'Buy', date: Date.today)
+        stock_price = ::IexApi.ohlc(stock_params[:symbol])
+        transaction_params_with_defaults = transaction_params.merge(transaction_type: 'Buy', date: Date.today, price: stock_price.open.price)
         @transaction = current_user.transactions.build(transaction_params_with_defaults)
         @stock = current_user.stocks.find_by(symbol: stock_params[:symbol])
       
@@ -45,6 +46,6 @@ class Users::UsersController < ApplicationController
     end
 
     def transaction_params
-    params.require(:transaction).permit(:symbol, :company_name, :quantity, :price)
+    params.require(:transaction).permit(:symbol, :company_name, :quantity)
     end
 end
