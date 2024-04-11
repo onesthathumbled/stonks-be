@@ -25,6 +25,10 @@ module IexApi
     @client.market
   end
 
+  def self.symbols
+    @client.ref_data_symbols
+  end
+
   # < ---------- HISTORICAL DATA ----------- >
 
   # One day of data
