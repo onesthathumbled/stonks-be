@@ -4,6 +4,7 @@ class Transaction < ApplicationRecord
   def self.buy(user, transaction_attributes, stock_attributes)
     ActiveRecord::Base.transaction do
       transaction = user.transactions.build(transaction_attributes)
+      transaction.transaction_type = 'Buy'
       transaction.save!
 
       stock = user.stocks.find_by(symbol: stock_attributes[:symbol])
@@ -14,13 +15,31 @@ class Transaction < ApplicationRecord
       else
         # Create new stock
         stock = user.stocks.build(stock_attributes)
-        stock.save!
       end
+      stock.save!
 
       user.wallet -= transaction.total_amount
       user.save!
     end
   end
+
+  def self.sell(user, transaction_attributes, stock_attributes)
+    ActiveRecord::Base.transaction do
+      transaction = user.transactions.build(transaction_attributes)
+      transaction.transaction_type = 'Sell'
+      transaction.save!
+
+      stock = user.stocks.find_by(symbol: stock_attributes[:symbol])
+
+      total_quantity = stock.quantity.to_i - stock_attributes[:quantity].to_i
+      stock.update(quantity: total_quantity)
+      stock.save!
+
+      user.wallet += transaction.total_amount
+      user.save!
+    end
+  end
+
 end
 
 
