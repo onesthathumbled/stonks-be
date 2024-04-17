@@ -40,6 +40,12 @@ Rails.application.routes.draw do
   get 'trader/portfolio', to: 'users/users#portfolio' #//
   # Get transactions of a specific trader
   get 'trader/transactions', to: 'users/users#transactions' #//
+
+  #                   IEX stocks Routes
+
+  get 'stocks', to: 'users/iex#index' #//
+
+  get 'stocks/show', to: 'users/iex#show' #//
  
   # < -------------------------------------------------------------------------------------------- >
   # For Testing Purposes
