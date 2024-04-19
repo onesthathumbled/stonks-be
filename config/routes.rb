@@ -46,6 +46,10 @@ Rails.application.routes.draw do
   get 'stocks', to: 'users/iex#index' #//
 
   get 'stocks/show', to: 'users/iex#show' #//
+  
+  get '/stocks/quote', to: 'users/iex#quote'
+  get '/stocks/market', to: 'users/iex#market'
+  get '/stocks/top10', to: 'users/iex#top10'
  
   # < -------------------------------------------------------------------------------------------- >
   # For Testing Purposes
