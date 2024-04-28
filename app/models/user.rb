@@ -1,7 +1,7 @@
 class User < ApplicationRecord
   include Devise::JWT::RevocationStrategies::JTIMatcher
 
-  validates :wallet, numericality: { greater_than_or_equal_to: 0 }
+  # validates :wallet, numericality: { greater_than_or_equal_to: 0 }
 
   has_many :stocks
   has_many :transactions
