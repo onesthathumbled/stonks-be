@@ -40,7 +40,9 @@ Rails.application.routes.draw do
   get 'trader/portfolio', to: 'users/users#portfolio' #//
   # Get transactions of a specific trader
   get 'trader/transactions', to: 'users/users#transactions' #//
-
+  get '/trader/wallet', to: 'users/users#wallet'
+  get '/trader/stock', to: 'users/users#get_stock'
+  
   #                   IEX stocks Routes
 
   get 'stocks', to: 'users/iex#index' #//

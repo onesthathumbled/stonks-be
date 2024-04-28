@@ -30,6 +30,23 @@ class Users::UsersController < ApplicationController
     render json: @transactions
   end
 
+  def wallet
+    @wallet = current_user
+    render json: { wallet: @wallet.wallet }
+  end
+
+  def get_stock
+    symbol = params[:symbol]
+    @stock = current_user.stocks.find_by(symbol: symbol)
+    
+    if @stock
+      render json: { stock: @stock }
+    else
+      render json: { error: 'Stock not found' }, status: :not_found
+    end
+  end
+  
+
   private
 
   def set_total_cost_and_stock_price
