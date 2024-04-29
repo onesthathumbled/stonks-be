@@ -1,26 +1,20 @@
 class Users::AdminsController < ApplicationController
     include RackSessionFix
     respond_to :json
+    before_action :authorize_admin
 
     def create_new_trader
         @user = User.new(user_params)
-        
-        if current_user.roles == 1
             if @user.save
                 render json: {
                   status: { code: 200, message: "Signed up successfully." },
                   data: UserSerializer.new(current_user).serializable_hash[:data][:attributes]
                 }, status: :ok
-              else
+            else
                 render json: {
                   status: { code: 422, message: "User couldn't be created successfully.", errors: current_user.errors.full_messages }
                 }, status: :unprocessable_entity
-              end
-        else
-            render json: {
-                status: {code: 400, message: "Unauthorized."}
-            }
-        end
+            end
     end
 
     def update_trader
@@ -69,7 +63,7 @@ class Users::AdminsController < ApplicationController
     end
 
     def show_transactions
-        @transactions = Transaction.all
+        @transactions = Transaction.joins(:user).select("transactions.*, users.email AS user_email").order(updated_at: :desc)
         render json: @transactions
     end
 
@@ -91,5 +85,13 @@ class Users::AdminsController < ApplicationController
 
     def user_params
         params.require(:user).permit(:name, :email, :password, :password_confirmation, :id, :status)
+    end
+
+    def authorize_admin
+        unless current_user && current_user.roles === 1
+            render json: {
+                status: { code: 403, message: "This feature is only available for administrators." }
+            }, status: :forbidden 
+        end
     end
 end
