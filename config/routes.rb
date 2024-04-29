@@ -41,6 +41,7 @@ Rails.application.routes.draw do
   # Get transactions of a specific trader
   get 'trader/transactions', to: 'users/users#transactions' #//
   get '/trader/wallet', to: 'users/users#wallet'
+  post '/trader/topup', to: 'users/users#topup'
   get '/trader/stock', to: 'users/users#get_stock'
   
   #                   IEX stocks Routes

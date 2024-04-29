@@ -36,6 +36,16 @@ class Users::UsersController < ApplicationController
     render json: { wallet: @wallet.wallet }
   end
 
+  def topup
+    amount = params[:amount].to_f
+    if amount >= 1
+      current_user.update(wallet: current_user.wallet + amount)
+      render json: { status: { code: 200, message: "Wallet topped up successfully." } }, status: :ok
+    else
+      render json: { error: "Amount must be at least 1." }, status: :unprocessable_entity
+    end
+  end
+
   def get_stock
     symbol = params[:symbol]
     @stock = current_user.stocks.find_by(symbol: symbol)
