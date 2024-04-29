@@ -1,5 +1,6 @@
 class Users::UsersController < ApplicationController
   include RackSessionFix
+  before_action :authorize_trader
 
   before_action :set_total_cost_and_stock_price, only: [:buy, :sell]
   before_action :set_transaction_params, only: [:buy, :sell]
@@ -61,5 +62,13 @@ class Users::UsersController < ApplicationController
 
   def stock_params
     params.require(:stock).permit(:symbol, :company_name, :quantity)
+  end
+
+  def authorize_trader
+    unless current_user && current_user.roles === 0 && current_user.status === true
+      render json: {
+          status: { code: 403, message: "This feature is only available for traders." }
+      }, status: :forbidden 
+    end
   end
 end
