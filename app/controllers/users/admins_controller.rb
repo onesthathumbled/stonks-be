@@ -38,12 +38,12 @@ class Users::AdminsController < ApplicationController
     end
 
     def show_traders
-        @traders = User.where(roles: 0, status: true)
+        @traders = User.where(roles: 0, status: true).order(updated_at: :desc)
         render json: @traders
     end
 
     def show_pending_traders
-        @traders = User.where(roles: 0, status: false)
+        @traders = User.where(roles: 0, status: false).order(created_at: :desc)
         render json: @traders
     end
 
@@ -73,7 +73,7 @@ class Users::AdminsController < ApplicationController
     end
     
     def show_admins
-        @admins = User.where(roles: 1)
+        @admins = User.where(roles: 1).order(updated_at: :desc)
         render json: @admins
     end
 
