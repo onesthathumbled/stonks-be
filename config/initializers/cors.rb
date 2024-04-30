@@ -7,7 +7,7 @@
 
 Rails.application.config.middleware.insert_before 0, Rack::Cors do
   allow do
-    origins "http://localhost:3000", "https://stonks.jairah.online"
+    origins "http://localhost:3000", "https://stonks.jairah.online", "https://gentle-torrone-77e04f.netlify.app"
 
     resource "*",
       headers: :any,
