@@ -35,6 +35,14 @@ class Users::UsersController < ApplicationController
     render json: { wallet: @wallet.wallet }
   end
 
+  def deposit
+    @amount = params[:amount].to_f 
+    @user = current_user
+    @user.wallet ||= 0  # Ensure wallet is initialized
+    @user.wallet += @amount
+    @user.save  
+  end
+
   def get_stock
     symbol = params[:symbol]
     @stock = current_user.stocks.find_by(symbol: symbol)

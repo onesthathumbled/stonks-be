@@ -53,18 +53,35 @@ class Users::AdminsController < ApplicationController
         render json: @traders
     end
 
+    # def approve_trader
+    #     @trader = User.find(params[:id])
+        
+    #     if @trader.update(status_param) 
+    #         render json: {
+    #             status: {code: 200, message: "Trader approved successfully."},
+    #             data: UserSerializer.new(@trader).serializable_hash[:data][:attributes]
+    #         }, status: :ok
+    #     else
+    #         render json: {
+    #             status: {code: 422, message: "Failed to approve trader.", errors: @trader.errors.full_messages}
+    #         }, status: :unprocessable_entity
+    #     end
+    # end
+
     def approve_trader
         @trader = User.find(params[:id])
         
         if @trader.update(status_param) 
-            render json: {
-                status: {code: 200, message: "Trader approved successfully."},
-                data: UserSerializer.new(@trader).serializable_hash[:data][:attributes]
-            }, status: :ok
+          UserMailer.trader_approved_email(@trader).deliver_now
+      
+          render json: {
+            status: { code: 200, message: "Trader approved successfully." },
+            data: UserSerializer.new(@trader).serializable_hash[:data][:attributes]
+          }, status: :ok
         else
-            render json: {
-                status: {code: 422, message: "Failed to approve trader.", errors: @trader.errors.full_messages}
-            }, status: :unprocessable_entity
+          render json: {
+            status: { code: 422, message: "Failed to approve trader.", errors: @trader.errors.full_messages }
+          }, status: :unprocessable_entity
         end
     end
 
