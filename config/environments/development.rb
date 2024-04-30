@@ -43,7 +43,7 @@ Rails.application.configure do
     config.cache_store = :null_store
   end
 
-  config.action_mailer.default_url_options = { host: 'localhost', port: 4000 }
+  
   
   config.navigational_formats = []
 
