@@ -1,5 +1,6 @@
 class Users::UsersController < ApplicationController
   include RackSessionFix
+  before_action :authorize_trader
 
   before_action :set_total_cost_and_stock_price, only: [:buy, :sell]
   before_action :set_transaction_params, only: [:buy, :sell]
@@ -35,12 +36,14 @@ class Users::UsersController < ApplicationController
     render json: { wallet: @wallet.wallet }
   end
 
-  def deposit
-    @amount = params[:amount].to_f 
-    @user = current_user
-    @user.wallet ||= 0  # Ensure wallet is initialized
-    @user.wallet += @amount
-    @user.save  
+  def topup
+    amount = params[:amount].to_f
+    if amount >= 1
+      current_user.update(wallet: current_user.wallet + amount)
+      render json: { status: { code: 200, message: "Wallet topped up successfully." } }, status: :ok
+    else
+      render json: { error: "Amount must be at least 1." }, status: :unprocessable_entity
+    end
   end
 
   def get_stock
@@ -69,5 +72,13 @@ class Users::UsersController < ApplicationController
 
   def stock_params
     params.require(:stock).permit(:symbol, :company_name, :quantity)
+  end
+
+  def authorize_trader
+    unless current_user && current_user.roles === 0 && current_user.status === true
+      render json: {
+          status: { code: 403, message: "This feature is only available for traders." }
+      }, status: :forbidden 
+    end
   end
 end

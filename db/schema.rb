@@ -56,7 +56,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_04_21_094000) do
     t.datetime "confirmation_sent_at"
     t.string "unconfirmed_email"
     t.integer "roles", default: 0, null: false
-    t.decimal "wallet"
+    t.decimal "wallet", default: "0.0"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["jti"], name: "index_users_on_jti", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
