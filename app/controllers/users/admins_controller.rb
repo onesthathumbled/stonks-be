@@ -101,7 +101,7 @@ class Users::AdminsController < ApplicationController
     end
 
     def user_params
-        params.require(:user).permit(:name, :email, :password, :password_confirmation, :id, :status)
+        params.require(:user).permit(:name, :email, :wallet, :roles, :password, :password_confirmation, :id, :status)
     end
 
     def authorize_admin
